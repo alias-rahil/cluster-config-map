@@ -1,0 +1,15 @@
+/.git/
+/.github/
+/.vscode/
+/config/
+/hack/
+/Dockerfile
+/.dockerignore
+/.gitignore
+/README.md
+/LICENSE
+/CONTRIBUTING.md
+/CHANGELOG.md
+/CODE_OF_CONDUCT.md
+/SECURITY.md
+/cluster-configs

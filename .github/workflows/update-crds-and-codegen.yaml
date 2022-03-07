@@ -1,0 +1,17 @@
+on:
+  push:
+    branches:
+      - main
+jobs:
+  update-crds-and-codegen:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - run: git config user.name ci
+      - run: docker buildx build --file hack/Dockerfile.update-codegen -o . .
+      - run: git add pkg
+      - run: 'git commit -m "chore(ci): update-codegen" || true'
+      - run: docker buildx build --file hack/Dockerfile.update-crds -o . .
+      - run: git add config
+      - run: 'git commit -m "chore(ci): update-crds" || true'
+      - run: git push

@@ -1,0 +1,8 @@
+FROM golang:1.17 AS build
+WORKDIR /go/src/github.com/alias-rahil/cluster-configs
+RUN go install sigs.k8s.io/controller-tools/cmd/controller-gen@v0.8.0
+COPY . .
+RUN controller-gen paths=github.com/alias-rahil/cluster-configs/pkg/apis/clusterconfigs.io/v1alpha1 crd:crdVersions=v1
+
+FROM scratch
+COPY --from=build /go/src/github.com/alias-rahil/cluster-configs/config config

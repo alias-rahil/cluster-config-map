@@ -1,0 +1,10 @@
+FROM golang:1.17 AS build
+WORKDIR /go/src/github.com/alias-rahil/cluster-configs
+RUN go mod download k8s.io/code-generator@v0.23.4
+COPY . .
+RUN bash /go/pkg/mod/k8s.io/code-generator@v0.23.4/generate-groups.sh all \
+    github.com/alias-rahil/cluster-configs/pkg/client github.com/alias-rahil/cluster-configs/pkg/apis clusterconfigs.io:v1alpha1 \
+    --go-header-file /go/pkg/mod/k8s.io/code-generator@v0.23.4/hack/boilerplate.go.txt
+
+FROM scratch
+COPY --from=build /go/src/github.com/alias-rahil/cluster-configs/pkg pkg
